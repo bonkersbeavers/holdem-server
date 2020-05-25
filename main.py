@@ -20,8 +20,8 @@ graphql_server = GraphqlHoldemServer(schema_str)
 server_app = Starlette(debug=True)
 server_app.mount("/graphql", CORSMiddleware(graphql_server.app, allow_methods=['*'], allow_origins=['*'], expose_headers=['']))
 
-engine_adapter = GrpcHoldemEngineAdapter('localhost:15001')
-print(engine_adapter.message("twoj stary"))
+# engine_adapter = GrpcHoldemEngineAdapter('localhost:15001')
+# print(engine_adapter.message("twoj stary"))
 
 if __name__ == '__main__':
-    uvicorn.run("main:server_app", host="127.0.0.1", port=5000, log_level="info")
+    uvicorn.run("main:server_app", host=config["host"], port=config["port"], log_level="debug")
