@@ -1,30 +1,37 @@
 import sys
 import json
+from argparse import ArgumentParser
 
-from starlette.applications import Starlette
 import uvicorn
+from starlette.applications import Starlette
 from starlette.middleware.cors import CORSMiddleware
 
 from server.engine_adapter import GrpcHoldemEngineAdapter
 from server.server import GraphqlHoldemServer
 
-print("XDDDDDDD")
+parser = ArgumentParser(prog="poker server app")
+parser.add_argument("--config", help="path to server configuration file", required=True)
+parser.add_argument("--schema", help="path to graphql schema file", required=True)
+args = parser.parse_args()
 
-config_file = sys.argv[1]
-with open(config_file, 'r') as file:
+with open(args.config, "r") as file:
     config = json.load(file)
 
-with open(config['schema-path'], 'r') as schema_file:
-    schema_str = schema_file.read()
+with open(args.schema, "r") as file:
+    schema = file.read()
 
-graphql_server = GraphqlHoldemServer(schema_str)
+graphql_server = GraphqlHoldemServer(schema)
 
 server_app = Starlette(debug=True)
-server_app.mount("/graphql",
-                 CORSMiddleware(graphql_server.app, allow_methods=['*'], allow_origins=['*'], expose_headers=['']))
+server_app.mount(
+    "/graphql",
+    CORSMiddleware(graphql_server.app, allow_methods=["*"], allow_origins=["*"], expose_headers=[""])
+)
 
-if __name__ == '__main__':
-    engine_adapter = GrpcHoldemEngineAdapter('0.0.0.0:5004')
+if __name__ == "__main__":
+    engine_address = config['engine-address']
+    engine_adapter = GrpcHoldemEngineAdapter(engine_address['host'], engine_address['port'])
     print(engine_adapter.message("twoj stary"))
 
-    uvicorn.run("main:server_app", host=config["host"], port=config["port"], log_level="debug")
+    server_address = config["server-address"]
+    uvicorn.run("main:server_app", host=server_address['host'], port=server_address['port'], log_level="debug")

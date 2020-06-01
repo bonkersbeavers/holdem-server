@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "01db66e3198a70f387e664a51d6f3eac82954fc349c5bf0f3017837a32bff969"
+            "sha256": "1fbe4f8deaf1fb5d0975961f0067a72379617ea8f4b3a3cadd4812678d56e37f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,14 @@
         ]
     },
     "default": {
+        "argparse": {
+            "hashes": [
+                "sha256:62b089a55be1d8949cd2bc7e0df0bddb9e028faefc8c32038cc84862aefdd6e4",
+                "sha256:c31647edb69fd3d465a847ea3157d37bed1f95f19760b11a47aa91c04b666314"
+            ],
+            "index": "pypi",
+            "version": "==1.4.0"
+        },
         "ariadne": {
             "hashes": [
                 "sha256:40de53740d7e1ba81df94bc0acd7fa571f31d58029c3f5a6dfcc9fa1bc5ad224",
@@ -177,14 +185,6 @@
             ],
             "index": "pypi",
             "version": "==0.13.4"
-        },
-        "treys": {
-            "hashes": [
-                "sha256:5e37886499b039a8fc536b7dcedbcee6fbf057bb83576cea7e214810e0eb7145",
-                "sha256:98a3511546cb00a7852a5114ba0754159dfa191a7b8a03fa52564933fbff7d25"
-            ],
-            "index": "pypi",
-            "version": "==0.1.3"
         },
         "typing-extensions": {
             "hashes": [

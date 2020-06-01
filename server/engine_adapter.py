@@ -5,11 +5,16 @@ from .proto_gen.HoldemEngineService_pb2_grpc import SimpleHandManagementServiceS
 
 
 class GrpcHoldemEngineAdapter:
-    def __init__(self, server_address):
-        channel = grpc.insecure_channel(server_address)
+    def __init__(self, host, port):
+        address = f'{host}:{port}'
+        channel = grpc.insecure_channel(address)
         self._engine_stub = SimpleHandManagementServiceStub(channel)
 
     def message(self, msg_contents):
-        proper_message = SimpleMessage(contents=msg_contents)
-        result = self._engine_stub.Hello(proper_message)
-        return result
+        try:
+            proper_message = SimpleMessage(contents=msg_contents)
+            result = self._engine_stub.Hello(proper_message)
+            return result
+        except grpc.RpcError as error:
+            print(error.details)
+            return None
