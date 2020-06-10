@@ -3,6 +3,7 @@ import grpc
 
 from . import HoldemEngineService_pb2 as HoldemEngineService__pb2
 
+
 class SimpleHandManagementServiceStub(object):
     """Missing associated documentation comment in .proto file"""
 
@@ -12,8 +13,8 @@ class SimpleHandManagementServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.Hello = channel.unary_unary(
-                '/service.grpc.SimpleHandManagementService/Hello',
+        self.Echo = channel.unary_unary(
+                '/service.grpc.SimpleHandManagementService/Echo',
                 request_serializer=HoldemEngineService__pb2.SimpleMessage.SerializeToString,
                 response_deserializer=HoldemEngineService__pb2.SimpleMessage.FromString,
                 )
@@ -22,7 +23,7 @@ class SimpleHandManagementServiceStub(object):
 class SimpleHandManagementServiceServicer(object):
     """Missing associated documentation comment in .proto file"""
 
-    def Hello(self, request, context):
+    def Echo(self, request, context):
         """Missing associated documentation comment in .proto file"""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -31,8 +32,8 @@ class SimpleHandManagementServiceServicer(object):
 
 def add_SimpleHandManagementServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'Hello': grpc.unary_unary_rpc_method_handler(
-                    servicer.Hello,
+            'Echo': grpc.unary_unary_rpc_method_handler(
+                    servicer.Echo,
                     request_deserializer=HoldemEngineService__pb2.SimpleMessage.FromString,
                     response_serializer=HoldemEngineService__pb2.SimpleMessage.SerializeToString,
             ),
@@ -47,7 +48,7 @@ class SimpleHandManagementService(object):
     """Missing associated documentation comment in .proto file"""
 
     @staticmethod
-    def Hello(request,
+    def Echo(request,
             target,
             options=(),
             channel_credentials=None,
@@ -56,7 +57,7 @@ class SimpleHandManagementService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/service.grpc.SimpleHandManagementService/Hello',
+        return grpc.experimental.unary_unary(request, target, '/service.grpc.SimpleHandManagementService/Echo',
             HoldemEngineService__pb2.SimpleMessage.SerializeToString,
             HoldemEngineService__pb2.SimpleMessage.FromString,
             options, channel_credentials,

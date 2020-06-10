@@ -10,7 +10,7 @@ option java_package = "service.grpc";
 
 
 service SimpleHandManagementService {
-  rpc Hello (SimpleMessage) returns (SimpleMessage);
+  rpc Echo (SimpleMessage) returns (SimpleMessage);
 }
 
 message SimpleMessage {

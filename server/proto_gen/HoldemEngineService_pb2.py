@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='service.grpc',
   syntax='proto3',
   serialized_options=b'\n\014service.grpcP\001',
-  serialized_pb=b'\n\x19HoldemEngineService.proto\x12\x0cservice.grpc\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\"!\n\rSimpleMessage\x12\x10\n\x08\x63ontents\x18\x01 \x01(\t2`\n\x1bSimpleHandManagementService\x12\x41\n\x05Hello\x12\x1b.service.grpc.SimpleMessage\x1a\x1b.service.grpc.SimpleMessageB\x10\n\x0cservice.grpcP\x01\x62\x06proto3'
+  serialized_pb=b'\n\x19HoldemEngineService.proto\x12\x0cservice.grpc\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\"!\n\rSimpleMessage\x12\x10\n\x08\x63ontents\x18\x01 \x01(\t2_\n\x1bSimpleHandManagementService\x12@\n\x04\x45\x63ho\x12\x1b.service.grpc.SimpleMessage\x1a\x1b.service.grpc.SimpleMessageB\x10\n\x0cservice.grpcP\x01\x62\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,])
 
@@ -77,11 +77,11 @@ _SIMPLEHANDMANAGEMENTSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   serialized_start=140,
-  serialized_end=236,
+  serialized_end=235,
   methods=[
   _descriptor.MethodDescriptor(
-    name='Hello',
-    full_name='service.grpc.SimpleHandManagementService.Hello',
+    name='Echo',
+    full_name='service.grpc.SimpleHandManagementService.Echo',
     index=0,
     containing_service=None,
     input_type=_SIMPLEMESSAGE,

@@ -1,7 +1,8 @@
 FROM python:3
 
-COPY ./ /home/poker-server/
+WORKDIR /app
 
-WORKDIR /home/poker-server/
+# temporary hack, this is not very safe xD
+COPY . .
 
 RUN pip3 install -r requirements.txt

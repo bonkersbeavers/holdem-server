@@ -1,7 +1,76 @@
 type Query {
-    hello: String!
+    echo(message: String!): String!
+    engineEcho(message: String!): String!
 }
 
-# type Subscription {
-#     mama(name: String!): String!
-# }
+type Subscription {
+    subscribe(playerToken: String): Table
+}
+
+type Table {
+    players: [Player!]!
+    positions: Positions!
+    blinds: Blinds
+    communityCards: [Card!]!
+    pots: [Int!]!
+}
+
+type Blinds {
+    smallBlind: Int!
+    bigBlind: Int!
+    ante: Int # TODO, currently not used by the engine
+}
+
+type Positions {
+    button: Int!
+    smallBlind: Int!
+    bigBlind: Int!
+}
+
+type Player {
+    name: String!
+    seat: Int!
+    stack: Int!
+    cards: [Card!]!
+    currentBet: Int!
+    currentAction: BettingAction
+}
+
+enum BettingAction {
+    POST
+    FOLD
+    CHECK
+    CALL
+    BET
+    RAISE
+}
+
+
+# Card type definition
+type Card {
+    rank: CardRank
+    suit: CardSuit
+}
+
+enum CardSuit {
+    SPADES
+    HEARTS
+    DIAMONDS
+    CLUBS
+}
+
+enum CardRank {
+    ACE
+    TWO
+    THREE
+    FOUR
+    FIVE
+    SIX
+    SEVEN
+    EIGHT
+    NINE
+    TEN
+    JACK
+    QUEEN
+    KING
+}
