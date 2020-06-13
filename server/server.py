@@ -44,6 +44,21 @@ class GraphqlServer:
 
         return resolver
 
+    def _subscribe_resolver(self):
+        def resolver(table, info, subscriberData):
+            # todo: filter table contents
+            return table
+
+        return resolver
+
+    def _subscribe_generator(self):
+        async def generator(obj, info, subscriberData):
+            async with self._table.get_update_stream() as stream:
+                while True:
+                    yield stream.get_update()
+
+        return generator
+
     def start(self):
         query = QueryType()
         query.set_field('echo', self._echo_resolver())

@@ -135,6 +135,13 @@ def proto_table_to_dict(proto: ProtoTable.Table) -> dict:
     return result
 
 
+def proto_table_update_to_dict(proto: ProtoTableService.TableUpdate) -> dict:
+    return {
+        'table': proto_table_to_dict(proto.table)
+        # todo: hand history
+    }
+
+
 def proto_request_status_to_dict(proto: ProtoTableService.RequestStatus) -> dict:
     if proto.code == ProtoTableService.OK:
         code = 'OK'

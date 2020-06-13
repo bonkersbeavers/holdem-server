@@ -16,18 +16,17 @@ class UpdateStream:
     def __init__(self, stream):
         self.stream = stream
 
-    def __enter__(self):
+    async def __aenter__(self):
         self.stream.open()
+        await self.stream.send_message(Empty(), end=True)
         return self
 
-    async def init(self):
-        init_message = Empty()
-        await self.stream.send_message(init_message, end=True)
-
     async def get_update(self):
-        return await self.stream.recv_message()
+        proto_update = await self.stream.recv_message()
+        update_dict = converters.proto_table_update_to_dict(proto_update)
+        return update_dict
 
-    def __exit__(self):
+    async def __aexit__(self):
         self.stream.close()
         return None
 
@@ -50,7 +49,8 @@ class CashGameTableAdapter:
         return converters.proto_request_status_to_dict(request_status)
 
     def get_update_stream(self):
-        return self.table.subscribe
+        stream = self.table.subscribe.open()
+        return UpdateStream(stream)
         # print(type(xd))
         # return UpdateStream(xd)
 
