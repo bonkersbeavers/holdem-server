@@ -1,35 +1,58 @@
-from ariadne import gql, QueryType, make_executable_schema, SubscriptionType, convert_kwargs_to_snake_case, ObjectType
+from ariadne import gql, QueryType, make_executable_schema, SubscriptionType, convert_kwargs_to_snake_case, ObjectType, \
+    MutationType
 from ariadne.asgi import GraphQL
 import asyncio
 import random
+import uuid
 
-from .engine_adapter import GrpcHoldemEngineAdapter
+from .engine_adapter import CashGameTableAdapter
 
 class GraphqlServer:
     def __init__(self, schema_str, engine_config):
         self._schema_str = gql(schema_str)
-        self._engine_adapter = GrpcHoldemEngineAdapter(engine_config['host'], engine_config['port'])
+        self._table = CashGameTableAdapter(host=engine_config['host'], port=engine_config['port'])
         self._app = None
+        self._players = {}
 
-    def _get_echo_resolver(self):
-        def resolver(obj, info, message):
+    def _echo_resolver(self):
+        async def resolver(obj, info, message):
             return message
 
         return resolver
 
-    def _get_engine_echo_resolver(self):
-        def resolver(obj, info, message):
-            engine_reply = self._engine_adapter.echo(message)
-            return engine_reply.contents
+    def _create_table_resolver(self):
+        async def resolver(obj, info, settings):
+            return await self._table.create(settings)
+
+        return resolver
+
+    def _add_player_resolver(self):
+        async def resolver(obj, info, playerData):
+            request_status = await self._table.add_player(playerData)
+            if request_status['code'] != 'OK':
+                return {'status': request_status}
+            else:
+                player_token = str(uuid.uuid4())
+                self._players[player_token] = {
+                    'playerName': playerData['playerName'],
+                    'playerToken': player_token
+                }
+                return {
+                    'status': request_status,
+                    'playerToken': player_token
+                }
 
         return resolver
 
     def start(self):
         query = QueryType()
-        query.set_field('echo', self._get_echo_resolver())
-        query.set_field('engineEcho', self._get_engine_echo_resolver())
+        query.set_field('echo', self._echo_resolver())
 
-        resolvers = [query]
+        mutation = MutationType()
+        mutation.set_field('createTable', self._create_table_resolver())
+        mutation.set_field('addPlayer', self._add_player_resolver())
+
+        resolvers = [query, mutation]
 
         executable_schema = make_executable_schema(
             self._schema_str,
@@ -39,6 +62,13 @@ class GraphqlServer:
 
     def get_app(self):
         return self._app
+
+
+
+
+
+
+
 
 
 class MockServer(GraphqlServer):

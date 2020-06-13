@@ -6,7 +6,7 @@ import uvicorn
 from starlette.applications import Starlette
 from starlette.middleware.cors import CORSMiddleware
 
-from server.engine_adapter import GrpcHoldemEngineAdapter
+from server.engine_adapter import CashGameTableAdapter
 from server.server import GraphqlServer, MockServer
 
 parser = ArgumentParser(prog="poker server app")
@@ -20,7 +20,7 @@ with open(args.config, "r") as file:
 with open(args.schema, "r") as file:
     schema = file.read()
 
-graphql_server = MockServer(schema, engine_config=config['engine-address'])
+graphql_server = GraphqlServer(schema, engine_config=config['engine-address'])
 graphql_server.start()
 
 server_app = Starlette(debug=True)

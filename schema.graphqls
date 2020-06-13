@@ -1,18 +1,105 @@
+# Server API definition
+
 type Query {
     echo(message: String!): String!
-    engineEcho(message: String!): String!
+}
+
+type Mutation {
+    createTable(settings: TableSettings!): RequestStatus!
+    addPlayer(playerData: PlayerRegistrationData!): PlayerRegistrationStatus!
+    removePlayer(playerData: PlayerRemovalData!): RequestStatus!
+    takeAction(actionData: PlayerActionData!): RequestStatus!
+    startGame: RequestStatus!
+    stopGame: RequestStatus!
 }
 
 type Subscription {
-    subscribe(playerToken: String): Table
+    subscribe(subscriberData: SubscriberData!): TableUpdate!
+}
+
+# Helpers
+
+enum StatusCode {
+    OK
+    INVALID_REQUEST
+    SERVER_FAILURE
+    ENGINE_FAILURE
+    UNKNOWN_ERROR
+}
+
+type RequestStatus {
+    code: StatusCode!
+    message: String
+}
+
+enum BettingActionType {
+    POST
+    FOLD
+    CHECK
+    CALL
+    BET
+    RAISE
+}
+
+# Table creation
+
+input TableSettings {
+    jsonSettings: String!
+}
+
+# Adding player
+
+input PlayerRegistrationData {
+    playerName: String!
+    seat: Int!
+}
+
+type PlayerRegistrationStatus {
+    status: RequestStatus!
+    playerToken: String
+}
+
+# Removing player
+
+input PlayerRemovalData {
+    playerToken: String!
+}
+
+# Betting action
+
+type BettingAction {
+    actionType: BettingActionType!
+
+    # optional, used only with BET and RAISE actions
+    chips: Int
+}
+
+input PlayerActionData {
+    playerToken: String!
+    #action: BettingAction! todo: input type
+}
+
+# Updates
+
+input SubscriberData {
+    playerToken: String
+    isAdmin: Boolean
+}
+
+type TableUpdate {
+    table: Table!
+    actionToken: String
+    possibleActions: [BettingAction!]
 }
 
 type Table {
     players: [Player!]!
-    positions: Positions!
-    blinds: Blinds
-    communityCards: [Card!]!
-    pots: [Int!]!
+    blinds: Blinds!
+
+    # following fields are populated only if the game is running
+    positions: Positions
+    communityCards: [Card!]
+    pots: [Int!]
 }
 
 type Blinds {
@@ -31,22 +118,13 @@ type Player {
     name: String!
     seat: Int!
     stack: Int!
-    cards: [Card!]!
-    currentBet: Int!
-    currentAction: BettingAction
+
+    # following fields are populated only for players in game
+    cards: [Card!]
+    currentBet: Int
+    lastAction: BettingActionType
 }
 
-enum BettingAction {
-    POST
-    FOLD
-    CHECK
-    CALL
-    BET
-    RAISE
-}
-
-
-# Card type definition
 type Card {
     rank: CardRank
     suit: CardSuit
