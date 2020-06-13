@@ -24,7 +24,7 @@ class CashGameTableServiceBase(abc.ABC):
         pass
 
     @abc.abstractmethod
-    async def subscribe(self, stream: 'grpclib.server.Stream[google.protobuf.empty_pb2.Empty, TableService_pb2.TableUpdate]') -> None:
+    async def subscribe(self, stream: 'grpclib.server.Stream[TableService_pb2.SubscriptionRequest, TableService_pb2.GameUpdate]') -> None:
         pass
 
     @abc.abstractmethod
@@ -36,7 +36,7 @@ class CashGameTableServiceBase(abc.ABC):
         pass
 
     @abc.abstractmethod
-    async def addPlayer(self, stream: 'grpclib.server.Stream[Players_pb2.PlayerJoinRequest, TableService_pb2.RequestStatus]') -> None:
+    async def addPlayer(self, stream: 'grpclib.server.Stream[Players_pb2.PlayerJoinRequest, TableService_pb2.AddPlayerRequestStatus]') -> None:
         pass
 
     @abc.abstractmethod
@@ -58,8 +58,8 @@ class CashGameTableServiceBase(abc.ABC):
             '/poker.proto.CashGameTableService/subscribe': grpclib.const.Handler(
                 self.subscribe,
                 grpclib.const.Cardinality.UNARY_STREAM,
-                google.protobuf.empty_pb2.Empty,
-                TableService_pb2.TableUpdate,
+                TableService_pb2.SubscriptionRequest,
+                TableService_pb2.GameUpdate,
             ),
             '/poker.proto.CashGameTableService/start': grpclib.const.Handler(
                 self.start,
@@ -77,7 +77,7 @@ class CashGameTableServiceBase(abc.ABC):
                 self.addPlayer,
                 grpclib.const.Cardinality.UNARY_UNARY,
                 Players_pb2.PlayerJoinRequest,
-                TableService_pb2.RequestStatus,
+                TableService_pb2.AddPlayerRequestStatus,
             ),
             '/poker.proto.CashGameTableService/removePlayer': grpclib.const.Handler(
                 self.removePlayer,
@@ -106,8 +106,8 @@ class CashGameTableServiceStub:
         self.subscribe = grpclib.client.UnaryStreamMethod(
             channel,
             '/poker.proto.CashGameTableService/subscribe',
-            google.protobuf.empty_pb2.Empty,
-            TableService_pb2.TableUpdate,
+            TableService_pb2.SubscriptionRequest,
+            TableService_pb2.GameUpdate,
         )
         self.start = grpclib.client.UnaryUnaryMethod(
             channel,
@@ -125,7 +125,7 @@ class CashGameTableServiceStub:
             channel,
             '/poker.proto.CashGameTableService/addPlayer',
             Players_pb2.PlayerJoinRequest,
-            TableService_pb2.RequestStatus,
+            TableService_pb2.AddPlayerRequestStatus,
         )
         self.removePlayer = grpclib.client.UnaryUnaryMethod(
             channel,

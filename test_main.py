@@ -19,10 +19,10 @@ async def process_update_stream(stream_coroutine):
 async def main():
     with CashGameTableAdapter(host='localhost', port=8080) as adapter:
 
-        stream = adapter.get_update_stream().open()
-        stream_processor = process_update_stream(stream)
+        # stream = adapter.get_update_stream().open()
+        # stream_processor = process_update_stream(stream)
 
-        settings = {
+        settings = """{
             'seatsNumber': 5,
             'defaultStack': 1000,
             'blinds': {
@@ -32,9 +32,14 @@ async def main():
             'playerActionTime': -1,
             'dealerActionTime': -1,
             'newHandTime': -1
-        }
+        }"""
 
         await adapter.create(settings),
+
+        xd = await adapter.add_player(seat=3, name='plgmatisz')
+        print(xd)
+
+        return
 
         cors = [
             # adapter.add_player(seat=1),

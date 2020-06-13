@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='poker.proto',
   syntax='proto3',
   serialized_options=b'\n\013poker.protoP\001',
-  serialized_pb=b'\n\rPlayers.proto\x12\x0bpoker.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\rBetting.proto\x1a\x0b\x43\x61rds.proto\"\x8a\x01\n\x06Player\x12\x0c\n\x04seat\x18\x01 \x01(\x05\x12\r\n\x05stack\x18\x02 \x01(\x05\x12\x0b\n\x03\x62\x65t\x18\x03 \x01(\x05\x12\x30\n\tactionLog\x18\x04 \x01(\x0b\x32\x1d.poker.proto.BettingActionLog\x12$\n\tholeCards\x18\x05 \x03(\x0b\x32\x11.poker.proto.Card\"!\n\x11PlayerJoinRequest\x12\x0c\n\x04seat\x18\x01 \x01(\x05\"#\n\x13PlayerRemoveRequest\x12\x0c\n\x04seat\x18\x01 \x01(\x05\x42\x0f\n\x0bpoker.protoP\x01\x62\x06proto3'
+  serialized_pb=b'\n\rPlayers.proto\x12\x0bpoker.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\rBetting.proto\x1a\x0b\x43\x61rds.proto\"\x9c\x01\n\x06Player\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04seat\x18\x02 \x01(\x05\x12\r\n\x05stack\x18\x03 \x01(\x05\x12\x0b\n\x03\x62\x65t\x18\x04 \x01(\x05\x12\x30\n\tactionLog\x18\x05 \x01(\x0b\x32\x1d.poker.proto.BettingActionLog\x12(\n\tholeCards\x18\x06 \x03(\x0b\x32\x15.poker.proto.HoleCard\"/\n\x11PlayerJoinRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04seat\x18\x02 \x01(\x05\"#\n\x13PlayerRemoveRequest\x12\x0c\n\x04seat\x18\x01 \x01(\x05\x42\x0f\n\x0bpoker.protoP\x01\x62\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,Betting__pb2.DESCRIPTOR,Cards__pb2.DESCRIPTOR,])
 
@@ -37,36 +37,43 @@ _PLAYER = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='seat', full_name='poker.proto.Player.seat', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      name='name', full_name='poker.proto.Player.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='stack', full_name='poker.proto.Player.stack', index=1,
+      name='seat', full_name='poker.proto.Player.seat', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='bet', full_name='poker.proto.Player.bet', index=2,
+      name='stack', full_name='poker.proto.Player.stack', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='actionLog', full_name='poker.proto.Player.actionLog', index=3,
-      number=4, type=11, cpp_type=10, label=1,
+      name='bet', full_name='poker.proto.Player.bet', index=3,
+      number=4, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='actionLog', full_name='poker.proto.Player.actionLog', index=4,
+      number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='holeCards', full_name='poker.proto.Player.holeCards', index=4,
-      number=5, type=11, cpp_type=10, label=3,
+      name='holeCards', full_name='poker.proto.Player.holeCards', index=5,
+      number=6, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -84,7 +91,7 @@ _PLAYER = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=121,
-  serialized_end=259,
+  serialized_end=277,
 )
 
 
@@ -96,8 +103,15 @@ _PLAYERJOINREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='seat', full_name='poker.proto.PlayerJoinRequest.seat', index=0,
-      number=1, type=5, cpp_type=1, label=1,
+      name='name', full_name='poker.proto.PlayerJoinRequest.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='seat', full_name='poker.proto.PlayerJoinRequest.seat', index=1,
+      number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -114,8 +128,8 @@ _PLAYERJOINREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=261,
-  serialized_end=294,
+  serialized_start=279,
+  serialized_end=326,
 )
 
 
@@ -145,12 +159,12 @@ _PLAYERREMOVEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=296,
-  serialized_end=331,
+  serialized_start=328,
+  serialized_end=363,
 )
 
 _PLAYER.fields_by_name['actionLog'].message_type = Betting__pb2._BETTINGACTIONLOG
-_PLAYER.fields_by_name['holeCards'].message_type = Cards__pb2._CARD
+_PLAYER.fields_by_name['holeCards'].message_type = Cards__pb2._HOLECARD
 DESCRIPTOR.message_types_by_name['Player'] = _PLAYER
 DESCRIPTOR.message_types_by_name['PlayerJoinRequest'] = _PLAYERJOINREQUEST
 DESCRIPTOR.message_types_by_name['PlayerRemoveRequest'] = _PLAYERREMOVEREQUEST

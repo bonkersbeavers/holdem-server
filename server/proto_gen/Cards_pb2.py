@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='poker.proto',
   syntax='proto3',
   serialized_options=b'\n\013poker.protoP\001',
-  serialized_pb=b'\n\x0b\x43\x61rds.proto\x12\x0bpoker.proto\"H\n\x04\x43\x61rd\x12\x1f\n\x04rank\x18\x01 \x01(\x0e\x32\x11.poker.proto.Rank\x12\x1f\n\x04suit\x18\x02 \x01(\x0e\x32\x11.poker.proto.Suit*\x95\x01\n\x04Rank\x12\x0b\n\x07NO_RANK\x10\x00\x12\x07\n\x03\x41\x43\x45\x10\x01\x12\x07\n\x03TWO\x10\x02\x12\t\n\x05THREE\x10\x03\x12\x08\n\x04\x46OUR\x10\x04\x12\x08\n\x04\x46IVE\x10\x05\x12\x07\n\x03SIX\x10\x06\x12\t\n\x05SEVEN\x10\x07\x12\t\n\x05\x45IGHT\x10\x08\x12\x08\n\x04NINE\x10\t\x12\x07\n\x03TEN\x10\n\x12\x08\n\x04JACK\x10\x0b\x12\t\n\x05QUEEN\x10\x0c\x12\x08\n\x04KING\x10\r*D\n\x04Suit\x12\x0b\n\x07NO_SUIT\x10\x00\x12\n\n\x06SPADES\x10\x01\x12\n\n\x06HEARTS\x10\x02\x12\x0c\n\x08\x44IAMONDS\x10\x03\x12\t\n\x05\x43LUBS\x10\x04\x42\x0f\n\x0bpoker.protoP\x01\x62\x06proto3'
+  serialized_pb=b'\n\x0b\x43\x61rds.proto\x12\x0bpoker.proto\"l\n\x08HoleCard\x12)\n\x0crevealedCard\x18\x01 \x01(\x0b\x32\x11.poker.proto.CardH\x00\x12-\n\nhiddenCard\x18\x02 \x01(\x0b\x32\x17.poker.proto.HiddenCardH\x00\x42\x06\n\x04\x63\x61rd\"\x0c\n\nHiddenCard\"H\n\x04\x43\x61rd\x12\x1f\n\x04rank\x18\x01 \x01(\x0e\x32\x11.poker.proto.Rank\x12\x1f\n\x04suit\x18\x02 \x01(\x0e\x32\x11.poker.proto.Suit*\x95\x01\n\x04Rank\x12\x0b\n\x07NO_RANK\x10\x00\x12\x07\n\x03\x41\x43\x45\x10\x01\x12\x07\n\x03TWO\x10\x02\x12\t\n\x05THREE\x10\x03\x12\x08\n\x04\x46OUR\x10\x04\x12\x08\n\x04\x46IVE\x10\x05\x12\x07\n\x03SIX\x10\x06\x12\t\n\x05SEVEN\x10\x07\x12\t\n\x05\x45IGHT\x10\x08\x12\x08\n\x04NINE\x10\t\x12\x07\n\x03TEN\x10\n\x12\x08\n\x04JACK\x10\x0b\x12\t\n\x05QUEEN\x10\x0c\x12\x08\n\x04KING\x10\r*D\n\x04Suit\x12\x0b\n\x07NO_SUIT\x10\x00\x12\n\n\x06SPADES\x10\x01\x12\n\n\x06HEARTS\x10\x02\x12\x0c\n\x08\x44IAMONDS\x10\x03\x12\t\n\x05\x43LUBS\x10\x04\x42\x0f\n\x0bpoker.protoP\x01\x62\x06proto3'
 )
 
 _RANK = _descriptor.EnumDescriptor(
@@ -87,8 +87,8 @@ _RANK = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=103,
-  serialized_end=252,
+  serialized_start=227,
+  serialized_end=376,
 )
 _sym_db.RegisterEnumDescriptor(_RANK)
 
@@ -122,8 +122,8 @@ _SUIT = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=254,
-  serialized_end=322,
+  serialized_start=378,
+  serialized_end=446,
 )
 _sym_db.RegisterEnumDescriptor(_SUIT)
 
@@ -148,6 +148,71 @@ HEARTS = 2
 DIAMONDS = 3
 CLUBS = 4
 
+
+
+_HOLECARD = _descriptor.Descriptor(
+  name='HoleCard',
+  full_name='poker.proto.HoleCard',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='revealedCard', full_name='poker.proto.HoleCard.revealedCard', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='hiddenCard', full_name='poker.proto.HoleCard.hiddenCard', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='card', full_name='poker.proto.HoleCard.card',
+      index=0, containing_type=None, fields=[]),
+  ],
+  serialized_start=28,
+  serialized_end=136,
+)
+
+
+_HIDDENCARD = _descriptor.Descriptor(
+  name='HiddenCard',
+  full_name='poker.proto.HiddenCard',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=138,
+  serialized_end=150,
+)
 
 
 _CARD = _descriptor.Descriptor(
@@ -183,16 +248,40 @@ _CARD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=28,
-  serialized_end=100,
+  serialized_start=152,
+  serialized_end=224,
 )
 
+_HOLECARD.fields_by_name['revealedCard'].message_type = _CARD
+_HOLECARD.fields_by_name['hiddenCard'].message_type = _HIDDENCARD
+_HOLECARD.oneofs_by_name['card'].fields.append(
+  _HOLECARD.fields_by_name['revealedCard'])
+_HOLECARD.fields_by_name['revealedCard'].containing_oneof = _HOLECARD.oneofs_by_name['card']
+_HOLECARD.oneofs_by_name['card'].fields.append(
+  _HOLECARD.fields_by_name['hiddenCard'])
+_HOLECARD.fields_by_name['hiddenCard'].containing_oneof = _HOLECARD.oneofs_by_name['card']
 _CARD.fields_by_name['rank'].enum_type = _RANK
 _CARD.fields_by_name['suit'].enum_type = _SUIT
+DESCRIPTOR.message_types_by_name['HoleCard'] = _HOLECARD
+DESCRIPTOR.message_types_by_name['HiddenCard'] = _HIDDENCARD
 DESCRIPTOR.message_types_by_name['Card'] = _CARD
 DESCRIPTOR.enum_types_by_name['Rank'] = _RANK
 DESCRIPTOR.enum_types_by_name['Suit'] = _SUIT
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+HoleCard = _reflection.GeneratedProtocolMessageType('HoleCard', (_message.Message,), {
+  'DESCRIPTOR' : _HOLECARD,
+  '__module__' : 'Cards_pb2'
+  # @@protoc_insertion_point(class_scope:poker.proto.HoleCard)
+  })
+_sym_db.RegisterMessage(HoleCard)
+
+HiddenCard = _reflection.GeneratedProtocolMessageType('HiddenCard', (_message.Message,), {
+  'DESCRIPTOR' : _HIDDENCARD,
+  '__module__' : 'Cards_pb2'
+  # @@protoc_insertion_point(class_scope:poker.proto.HiddenCard)
+  })
+_sym_db.RegisterMessage(HiddenCard)
 
 Card = _reflection.GeneratedProtocolMessageType('Card', (_message.Message,), {
   'DESCRIPTOR' : _CARD,

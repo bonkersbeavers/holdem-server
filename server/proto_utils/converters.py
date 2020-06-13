@@ -41,6 +41,15 @@ def proto_card_to_dict(proto: ProtoCards.Card) -> dict:
     }
     return result
 
+def proto_hole_card_to_dict(proto: ProtoCards.HoleCard) -> Union[dict, str]:
+    card = proto.WhichOneof('card')
+
+    if card == 'revealedCard':
+        return proto_card_to_dict(proto.revealedCard)
+
+    else:
+        return 'HIDDEN'
+
 
 def proto_positions_to_dict(proto: ProtoTable.Positions) -> dict:
     result = {
@@ -80,11 +89,12 @@ def proto_betting_action_log_to_action_type(proto: ProtoBetting.BettingActionLog
 
 def proto_player_to_dict(proto: ProtoPlayers.Player) -> dict:
     result = {
+        'name': proto.name,
         'seat': proto.seat,
         'stack': proto.stack,
-        'bet': proto.bet,
-        'actionLog': proto_betting_action_log_to_action_type(proto.actionLog),
-        'holeCards': [proto_card_to_dict(card) for card in proto.holeCards]
+        'currentBet': proto.bet,
+        'lastAction': proto_betting_action_log_to_action_type(proto.actionLog),
+        'cards': [proto_hole_card_to_dict(card) for card in proto.holeCards]
     }
     return result
 
@@ -104,7 +114,7 @@ def proto_betting_action_option_to_dict(proto: ProtoBetting.BettingActionOption)
         return ('RAISE', proto.raiseOption.minRaise)
 
 
-def proto_next_action_data_to_dict(proto: ProtoTable.NextActionData) -> Union[dict, None]:
+def proto_next_action_data_to_dict(proto: ProtoTableService.NextActionData) -> Union[dict, None]:
     next_action = proto.WhichOneof('action')
 
     if next_action == 'noAction':
@@ -112,7 +122,6 @@ def proto_next_action_data_to_dict(proto: ProtoTable.NextActionData) -> Union[di
 
     available_action = proto.availableAction
     result = {
-        'activePlayerSeat': available_action.activePlayerSeat,
         'actionOptions': [proto_betting_action_option_to_dict(option) for option in available_action.actionOptions],
         'actionToken': available_action.actionToken
     }
@@ -129,13 +138,14 @@ def proto_table_to_dict(proto: ProtoTable.Table) -> dict:
         'communityCards': [proto_card_to_dict(card) for card in proto.communityCards],
         'pots': proto.pots,
 
-        'nextAction': proto_next_action_data_to_dict(proto.nextAction)
+        'activePlayerSeat': proto.activePlayerSeat,
+        # 'nextAction': proto_next_action_data_to_dict(proto.nextAction)
     }
 
     return result
 
 
-def proto_table_update_to_dict(proto: ProtoTableService.TableUpdate) -> dict:
+def proto_table_update_to_dict(proto: ProtoTableService.GameUpdate) -> dict:
     return {
         'table': proto_table_to_dict(proto.table)
         # todo: hand history
@@ -158,7 +168,36 @@ def proto_request_status_to_dict(proto: ProtoTableService.RequestStatus) -> dict
     }
 
 
+def proto_add_player_request_status_to_dict(proto: ProtoTableService.AddPlayerRequestStatus) -> dict:
+    return {
+        'status': proto_request_status_to_dict(proto.status),
+        'playerToken': proto.playerToken
+    }
+
+
 def table_settings_dict_to_proto(settings: dict) -> ProtoTableService.TableSettings:
     settings_string = json.dumps(settings)
     return ProtoTableService.TableSettings(jsonSettings=settings_string)
 
+
+def player_token_to_proto_subscription_request(token: str) -> ProtoTableService.SubscriptionRequest:
+    return ProtoTableService.SubscriptionRequest(playerToken=token)
+
+
+def action_data_dict_to_proto_action_request(action_data: dict) -> ProtoBetting.BettingActionRequest:
+    request = ProtoBetting.BettingActionRequest(actionToken=action_data['playerToken'])
+    action = action_data['action']
+    action_type = action['actionType']
+
+    if action_type == 'FOLD':
+        request.foldAction.CopyFrom(ProtoBetting.FoldRequest())
+    if action_type == 'CHECK':
+        request.checkAction.CopyFrom(ProtoBetting.CheckRequest())
+    if action_type == 'CALL':
+        request.callAction.CopyFrom(ProtoBetting.CallRequest())
+    if action_type == 'BET':
+        request.betAction.CopyFrom(ProtoBetting.BetRequest(chips=action['chips']))
+    if action_type == 'BET':
+        request.raiseAction.CopyFrom(ProtoBetting.RaiseRequest(chips=action['chips']))
+
+    return request

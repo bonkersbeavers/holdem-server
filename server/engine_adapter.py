@@ -17,7 +17,6 @@ class UpdateStream:
         self.stream = stream
 
     async def __aenter__(self):
-        self.stream.open()
         await self.stream.send_message(Empty(), end=True)
         return self
 
@@ -43,38 +42,38 @@ class CashGameTableAdapter:
         self.channel.close()
         return None
 
-    async def create(self, settings: dict):
-        message = TableSettings(jsonSettings=settings['jsonSettings'])
+    async def create(self, string_settings: str):
+        message = TableSettings(jsonSettings=string_settings)
         request_status = await self.table.create(message)
         return converters.proto_request_status_to_dict(request_status)
 
     def get_update_stream(self):
-        stream = self.table.subscribe.open()
-        return UpdateStream(stream)
+        stream = self.table.subscribe
+        return stream
         # print(type(xd))
         # return UpdateStream(xd)
 
-    async def add_player(self, player_registration_data: dict):
-        join_request = PlayerJoinRequest(seat=player_registration_data['seat'])
+    async def add_player(self, name: str, seat: int):
+        join_request = PlayerJoinRequest(name=name, seat=seat)
         request_status = await self.table.addPlayer(join_request)
-        return converters.proto_request_status_to_dict(request_status)
+        return converters.proto_add_player_request_status_to_dict(request_status)
 
     async def remove_player(self, seat: int):
         remove_request = PlayerRemoveRequest(seat=seat)
         request_status = await self.table.removePlayer(remove_request)
-        return request_status
+        return converters.proto_request_status_to_dict(request_status)
 
     async def start(self):
         request = Empty()
         request_status = await self.table.start(request)
-        return request_status
+        return converters.proto_request_status_to_dict(request_status)
 
     async def stop(self):
         request = Empty()
         request_status = await self.table.stop(request)
-        return request_status
+        return converters.proto_request_status_to_dict(request_status)
 
     async def take_action(self, action: str, token: str, chips: int = 0):
         request = converters.create_proto_action_request(action, token, chips)
         request_status = await self.table.takeAction(request)
-        return request_status
+        return converters.proto_request_status_to_dict(request_status)

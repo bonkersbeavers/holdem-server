@@ -23,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='poker.proto',
   syntax='proto3',
   serialized_options=b'\n\013poker.protoP\001',
-  serialized_pb=b'\n\x0bTable.proto\x12\x0bpoker.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x0b\x43\x61rds.proto\x1a\rPlayers.proto\x1a\rBetting.proto\"\xfc\x01\n\x05Table\x12\x13\n\x0bseatsNumber\x18\x01 \x01(\x05\x12)\n\tpositions\x18\x03 \x01(\x0b\x32\x16.poker.proto.Positions\x12#\n\x06\x62linds\x18\x04 \x01(\x0b\x32\x13.poker.proto.Blinds\x12$\n\x07players\x18\x02 \x03(\x0b\x32\x13.poker.proto.Player\x12)\n\x0e\x63ommunityCards\x18\x05 \x03(\x0b\x32\x11.poker.proto.Card\x12\x0c\n\x04pots\x18\x06 \x03(\x05\x12/\n\nnextAction\x18\x07 \x01(\x0b\x32\x1b.poker.proto.NextActionData\"~\n\x0eNextActionData\x12)\n\x08noAction\x18\x01 \x01(\x0b\x32\x15.poker.proto.NoActionH\x00\x12\x37\n\x0f\x61vailableAction\x18\x02 \x01(\x0b\x32\x1c.poker.proto.AvailableActionH\x00\x42\x08\n\x06\x61\x63tion\"\n\n\x08NoAction\"y\n\x0f\x41vailableAction\x12\x18\n\x10\x61\x63tivePlayerSeat\x18\x01 \x01(\x05\x12\x37\n\ractionOptions\x18\x02 \x03(\x0b\x32 .poker.proto.BettingActionOption\x12\x13\n\x0b\x61\x63tionToken\x18\x03 \x01(\t\"<\n\x06\x42linds\x12\x12\n\nsmallBlind\x18\x01 \x01(\x05\x12\x10\n\x08\x62igBlind\x18\x02 \x01(\x05\x12\x0c\n\x04\x61nte\x18\x03 \x01(\x05\"A\n\tPositions\x12\x0e\n\x06\x62utton\x18\x01 \x01(\x05\x12\x12\n\nsmallBlind\x18\x02 \x01(\x05\x12\x10\n\x08\x62igBlind\x18\x03 \x01(\x05\x42\x0f\n\x0bpoker.protoP\x01\x62\x06proto3'
+  serialized_pb=b'\n\x0bTable.proto\x12\x0bpoker.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x0b\x43\x61rds.proto\x1a\rPlayers.proto\x1a\rBetting.proto\"\xe5\x01\n\x05Table\x12\x13\n\x0bseatsNumber\x18\x01 \x01(\x05\x12)\n\tpositions\x18\x03 \x01(\x0b\x32\x16.poker.proto.Positions\x12#\n\x06\x62linds\x18\x04 \x01(\x0b\x32\x13.poker.proto.Blinds\x12$\n\x07players\x18\x02 \x03(\x0b\x32\x13.poker.proto.Player\x12)\n\x0e\x63ommunityCards\x18\x05 \x03(\x0b\x32\x11.poker.proto.Card\x12\x0c\n\x04pots\x18\x06 \x03(\x05\x12\x18\n\x10\x61\x63tivePlayerSeat\x18\x07 \x01(\x05\"<\n\x06\x42linds\x12\x12\n\nsmallBlind\x18\x01 \x01(\x05\x12\x10\n\x08\x62igBlind\x18\x02 \x01(\x05\x12\x0c\n\x04\x61nte\x18\x03 \x01(\x05\"A\n\tPositions\x12\x0e\n\x06\x62utton\x18\x01 \x01(\x05\x12\x12\n\nsmallBlind\x18\x02 \x01(\x05\x12\x10\n\x08\x62igBlind\x18\x03 \x01(\x05\x42\x0f\n\x0bpoker.protoP\x01\x62\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,Cards__pb2.DESCRIPTOR,Players__pb2.DESCRIPTOR,Betting__pb2.DESCRIPTOR,])
 
@@ -80,9 +80,9 @@ _TABLE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='nextAction', full_name='poker.proto.Table.nextAction', index=6,
-      number=7, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      name='activePlayerSeat', full_name='poker.proto.Table.activePlayerSeat', index=6,
+      number=7, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -99,117 +99,7 @@ _TABLE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=134,
-  serialized_end=386,
-)
-
-
-_NEXTACTIONDATA = _descriptor.Descriptor(
-  name='NextActionData',
-  full_name='poker.proto.NextActionData',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='noAction', full_name='poker.proto.NextActionData.noAction', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='availableAction', full_name='poker.proto.NextActionData.availableAction', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-    _descriptor.OneofDescriptor(
-      name='action', full_name='poker.proto.NextActionData.action',
-      index=0, containing_type=None, fields=[]),
-  ],
-  serialized_start=388,
-  serialized_end=514,
-)
-
-
-_NOACTION = _descriptor.Descriptor(
-  name='NoAction',
-  full_name='poker.proto.NoAction',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=516,
-  serialized_end=526,
-)
-
-
-_AVAILABLEACTION = _descriptor.Descriptor(
-  name='AvailableAction',
-  full_name='poker.proto.AvailableAction',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='activePlayerSeat', full_name='poker.proto.AvailableAction.activePlayerSeat', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='actionOptions', full_name='poker.proto.AvailableAction.actionOptions', index=1,
-      number=2, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='actionToken', full_name='poker.proto.AvailableAction.actionToken', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=528,
-  serialized_end=649,
+  serialized_end=363,
 )
 
 
@@ -253,8 +143,8 @@ _BLINDS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=651,
-  serialized_end=711,
+  serialized_start=365,
+  serialized_end=425,
 )
 
 
@@ -298,28 +188,15 @@ _POSITIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=713,
-  serialized_end=778,
+  serialized_start=427,
+  serialized_end=492,
 )
 
 _TABLE.fields_by_name['positions'].message_type = _POSITIONS
 _TABLE.fields_by_name['blinds'].message_type = _BLINDS
 _TABLE.fields_by_name['players'].message_type = Players__pb2._PLAYER
 _TABLE.fields_by_name['communityCards'].message_type = Cards__pb2._CARD
-_TABLE.fields_by_name['nextAction'].message_type = _NEXTACTIONDATA
-_NEXTACTIONDATA.fields_by_name['noAction'].message_type = _NOACTION
-_NEXTACTIONDATA.fields_by_name['availableAction'].message_type = _AVAILABLEACTION
-_NEXTACTIONDATA.oneofs_by_name['action'].fields.append(
-  _NEXTACTIONDATA.fields_by_name['noAction'])
-_NEXTACTIONDATA.fields_by_name['noAction'].containing_oneof = _NEXTACTIONDATA.oneofs_by_name['action']
-_NEXTACTIONDATA.oneofs_by_name['action'].fields.append(
-  _NEXTACTIONDATA.fields_by_name['availableAction'])
-_NEXTACTIONDATA.fields_by_name['availableAction'].containing_oneof = _NEXTACTIONDATA.oneofs_by_name['action']
-_AVAILABLEACTION.fields_by_name['actionOptions'].message_type = Betting__pb2._BETTINGACTIONOPTION
 DESCRIPTOR.message_types_by_name['Table'] = _TABLE
-DESCRIPTOR.message_types_by_name['NextActionData'] = _NEXTACTIONDATA
-DESCRIPTOR.message_types_by_name['NoAction'] = _NOACTION
-DESCRIPTOR.message_types_by_name['AvailableAction'] = _AVAILABLEACTION
 DESCRIPTOR.message_types_by_name['Blinds'] = _BLINDS
 DESCRIPTOR.message_types_by_name['Positions'] = _POSITIONS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -330,27 +207,6 @@ Table = _reflection.GeneratedProtocolMessageType('Table', (_message.Message,), {
   # @@protoc_insertion_point(class_scope:poker.proto.Table)
   })
 _sym_db.RegisterMessage(Table)
-
-NextActionData = _reflection.GeneratedProtocolMessageType('NextActionData', (_message.Message,), {
-  'DESCRIPTOR' : _NEXTACTIONDATA,
-  '__module__' : 'Table_pb2'
-  # @@protoc_insertion_point(class_scope:poker.proto.NextActionData)
-  })
-_sym_db.RegisterMessage(NextActionData)
-
-NoAction = _reflection.GeneratedProtocolMessageType('NoAction', (_message.Message,), {
-  'DESCRIPTOR' : _NOACTION,
-  '__module__' : 'Table_pb2'
-  # @@protoc_insertion_point(class_scope:poker.proto.NoAction)
-  })
-_sym_db.RegisterMessage(NoAction)
-
-AvailableAction = _reflection.GeneratedProtocolMessageType('AvailableAction', (_message.Message,), {
-  'DESCRIPTOR' : _AVAILABLEACTION,
-  '__module__' : 'Table_pb2'
-  # @@protoc_insertion_point(class_scope:poker.proto.AvailableAction)
-  })
-_sym_db.RegisterMessage(AvailableAction)
 
 Blinds = _reflection.GeneratedProtocolMessageType('Blinds', (_message.Message,), {
   'DESCRIPTOR' : _BLINDS,

@@ -74,9 +74,16 @@ type BettingAction {
     chips: Int
 }
 
+input BettingActionInput {
+    actionType: BettingActionType!
+
+    # optional, used only with BET and RAISE actions
+    chips: Int
+}
+
 input PlayerActionData {
     playerToken: String!
-    #action: BettingAction! todo: input type
+    action: BettingActionInput!
 }
 
 # Updates
