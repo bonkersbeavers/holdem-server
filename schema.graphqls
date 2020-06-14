@@ -8,7 +8,7 @@ type Mutation {
     createTable(settings: TableSettings!): RequestStatus!
     addPlayer(playerData: PlayerRegistrationData!): PlayerRegistrationStatus!
     removePlayer(playerData: PlayerRemovalData!): RequestStatus!
-    takeAction(actionData: PlayerActionData!): RequestStatus!
+    takeAction(actionRequest: ActionRequest!): RequestStatus!
     startGame: RequestStatus!
     stopGame: RequestStatus!
 }
@@ -74,16 +74,10 @@ type BettingAction {
     chips: Int
 }
 
-input BettingActionInput {
-    actionType: BettingActionType!
-
-    # optional, used only with BET and RAISE actions
+input ActionRequest {
+    actionToken: String!
+    action: BettingActionType!
     chips: Int
-}
-
-input PlayerActionData {
-    playerToken: String!
-    action: BettingActionInput!
 }
 
 # Updates
@@ -95,8 +89,12 @@ input SubscriberData {
 
 type TableUpdate {
     table: Table!
-    actionToken: String
-    possibleActions: [BettingAction!]
+    nextActionData: NextActionData
+}
+
+type NextActionData {
+    actionToken: String!
+    possibleActions: [BettingAction!]!
 }
 
 type Table {
@@ -104,6 +102,7 @@ type Table {
     blinds: Blinds!
 
     # following fields are populated only if the game is running
+    activePlayerSeat: Int
     positions: Positions
     communityCards: [Card!]
     pots: [Int!]

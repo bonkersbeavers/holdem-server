@@ -73,7 +73,7 @@ class CashGameTableAdapter:
         request_status = await self.table.stop(request)
         return converters.proto_request_status_to_dict(request_status)
 
-    async def take_action(self, action: str, token: str, chips: int = 0):
-        request = converters.create_proto_action_request(action, token, chips)
+    async def take_action(self, action_token: str, action: str, chips: int = 0):
+        request = converters.create_proto_action_request(action_token, action, chips)
         request_status = await self.table.takeAction(request)
         return converters.proto_request_status_to_dict(request_status)

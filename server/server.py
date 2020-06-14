@@ -53,16 +53,16 @@ class GraphqlServer:
 
                 while True:
                     update = await stream.recv_message()
-                    yield converters.proto_table_update_to_dict(update)
+                    yield converters.proto_game_update_to_dict(update)
 
         return generator
 
     def _take_action_resolver(self):
-        async def resolver(obj, info, actionData):
-            action = actionData['action']['actionType']
-            token = actionData['playerToken']
-            chips = actionData['action'].get('chips', None)
-            request_status = await self._table.take_action(action, token, chips)
+        async def resolver(obj, info, actionRequest):
+            action = actionRequest['action']
+            token = actionRequest['actionToken']
+            chips = actionRequest.get('chips', None)
+            request_status = await self._table.take_action(token, action, chips)
             return request_status
 
         return resolver

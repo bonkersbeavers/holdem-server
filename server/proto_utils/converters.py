@@ -8,7 +8,7 @@ import json
 from typing import Union, Tuple
 
 
-def create_proto_action_request(action_type: str, action_token: str, chips=None):
+def create_proto_action_request(action_token: str, action_type: str, chips=None):
     action_request = ProtoBetting.BettingActionRequest(actionToken=action_token)
 
     if action_type == 'FOLD':
@@ -99,30 +99,29 @@ def proto_player_to_dict(proto: ProtoPlayers.Player) -> dict:
     return result
 
 
-def proto_betting_action_option_to_dict(proto: ProtoBetting.BettingActionOption) -> Union[str, Tuple[str, int]]:
+def proto_betting_action_option_to_dict(proto: ProtoBetting.BettingActionOption) -> dict:
     option = proto.WhichOneof('option')
 
     if option == 'foldOption':
-        return 'FOLD'
+        return {'actionType': 'FOLD'}
     if option == 'checkOption':
-        return 'CHECK'
+        return {'actionType': 'CHECK'}
     if option == 'callOption':
-        return 'CALL'
+        return {'actionType': 'CALL'}
     if option == 'betOption':
-        return ('BET', proto.betOption.minBet)
+        return {'actionType': 'BET', 'chips': proto.betOption.minBet}
     if option == 'raiseOption':
-        return ('RAISE', proto.raiseOption.minRaise)
+        return {'actionType': 'RAISE', 'chips': proto.raiseOption.minRaise}
 
 
 def proto_next_action_data_to_dict(proto: ProtoTableService.NextActionData) -> Union[dict, None]:
     next_action = proto.WhichOneof('action')
-
     if next_action == 'noAction':
         return None
 
     available_action = proto.availableAction
     result = {
-        'actionOptions': [proto_betting_action_option_to_dict(option) for option in available_action.actionOptions],
+        'possibleActions': [proto_betting_action_option_to_dict(option) for option in available_action.actionOptions],
         'actionToken': available_action.actionToken
     }
     return result
@@ -139,17 +138,22 @@ def proto_table_to_dict(proto: ProtoTable.Table) -> dict:
         'pots': proto.pots,
 
         'activePlayerSeat': proto.activePlayerSeat,
-        # 'nextAction': proto_next_action_data_to_dict(proto.nextAction)
     }
 
     return result
 
 
-def proto_table_update_to_dict(proto: ProtoTableService.GameUpdate) -> dict:
-    return {
-        'table': proto_table_to_dict(proto.table)
-        # todo: hand history
+def proto_game_update_to_dict(proto: ProtoTableService.GameUpdate) -> dict:
+    result = {
+        'table': proto_table_to_dict(proto.table),
+        'nextActionData': proto_next_action_data_to_dict(proto.nextAction)
     }
+
+    # next_action_data = proto_next_action_data_to_dict(proto.nextAction)
+    # if next_action_data is not None:
+    #     result['nextActionData'] = next_action_data
+
+    return result
 
 
 def proto_request_status_to_dict(proto: ProtoTableService.RequestStatus) -> dict:
