@@ -48,10 +48,9 @@ class CashGameTableAdapter:
         return converters.proto_request_status_to_dict(request_status)
 
     def get_update_stream(self):
+        # todo: make it cleaner
         stream = self.table.subscribe
         return stream
-        # print(type(xd))
-        # return UpdateStream(xd)
 
     async def add_player(self, name: str, seat: int):
         join_request = PlayerJoinRequest(name=name, seat=seat)

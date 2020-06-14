@@ -1,4 +1,3 @@
-import sys
 import json
 from argparse import ArgumentParser
 
@@ -6,8 +5,7 @@ import uvicorn
 from starlette.applications import Starlette
 from starlette.middleware.cors import CORSMiddleware
 
-from server.engine_adapter import CashGameTableAdapter
-from server.server import GraphqlServer, MockServer
+from server.server import GraphqlServer
 
 parser = ArgumentParser(prog="poker server app")
 parser.add_argument("--config", help="path to server configuration file", required=True)

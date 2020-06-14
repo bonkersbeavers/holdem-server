@@ -5,7 +5,7 @@ from ..proto_gen import Betting_pb2 as ProtoBetting
 from ..proto_gen import TableService_pb2 as ProtoTableService
 
 import json
-from typing import Union, Tuple
+from typing import Union
 
 
 def create_proto_action_request(action_token: str, action_type: str, chips=None):
@@ -37,21 +37,26 @@ def create_proto_action_request(action_token: str, action_type: str, chips=None)
 def proto_card_to_dict(proto: ProtoCards.Card) -> dict:
     result = {
         'rank': ProtoCards.Rank.Name(proto.rank),
-        'suit': ProtoCards.Suit.Name(proto.suit)
+        'suit': ProtoCards.Suit.Name(proto.suit),
+        'isHidden': False
     }
     return result
 
-def proto_hole_card_to_dict(proto: ProtoCards.HoleCard) -> Union[dict, str]:
+
+def proto_hole_card_to_dict(proto: ProtoCards.HoleCard) -> dict:
     card = proto.WhichOneof('card')
 
     if card == 'revealedCard':
         return proto_card_to_dict(proto.revealedCard)
 
     else:
-        return 'HIDDEN'
+        return {'isHidden': True}
 
 
-def proto_positions_to_dict(proto: ProtoTable.Positions) -> dict:
+def proto_positions_to_dict(proto: ProtoTable.Positions) -> Union[dict, None]:
+    if proto.button == -1:
+        return None
+
     result = {
         'button': proto.button,
         'smallBlind': proto.smallBlind,
@@ -60,7 +65,7 @@ def proto_positions_to_dict(proto: ProtoTable.Positions) -> dict:
     return result
 
 
-def proto_blinds_2_dict(proto: ProtoTable.Blinds) -> dict:
+def proto_blinds_to_dict(proto: ProtoTable.Blinds) -> dict:
     result = {
         'smallBlind': proto.smallBlind,
         'bigBlind': proto.bigBlind
@@ -131,13 +136,13 @@ def proto_table_to_dict(proto: ProtoTable.Table) -> dict:
     result = {
         'seatsNumber': proto.seatsNumber,
         'positions': proto_positions_to_dict(proto.positions),
-        'blinds': proto_blinds_2_dict(proto.blinds),
+        'blinds': proto_blinds_to_dict(proto.blinds),
 
         'players': [proto_player_to_dict(player) for player in proto.players],
         'communityCards': [proto_card_to_dict(card) for card in proto.communityCards],
         'pots': proto.pots,
 
-        'activePlayerSeat': proto.activePlayerSeat,
+        'activePlayerSeat': proto.activePlayerSeat if proto.activePlayerSeat != -1 else None,
     }
 
     return result
@@ -146,12 +151,12 @@ def proto_table_to_dict(proto: ProtoTable.Table) -> dict:
 def proto_game_update_to_dict(proto: ProtoTableService.GameUpdate) -> dict:
     result = {
         'table': proto_table_to_dict(proto.table),
-        'nextActionData': proto_next_action_data_to_dict(proto.nextAction)
     }
 
-    # next_action_data = proto_next_action_data_to_dict(proto.nextAction)
-    # if next_action_data is not None:
-    #     result['nextActionData'] = next_action_data
+    next_action_data = proto_next_action_data_to_dict(proto.nextAction)
+    if next_action_data is not None:
+        result['actionToken'] = next_action_data['actionToken']
+        result['possibleActions'] = next_action_data['possibleActions']
 
     return result
 
@@ -173,9 +178,11 @@ def proto_request_status_to_dict(proto: ProtoTableService.RequestStatus) -> dict
 
 
 def proto_add_player_request_status_to_dict(proto: ProtoTableService.AddPlayerRequestStatus) -> dict:
+    status_dict = proto_request_status_to_dict(proto.status)
     return {
-        'status': proto_request_status_to_dict(proto.status),
-        'playerToken': proto.playerToken
+        'code': status_dict['code'],
+        'message': status_dict['message'],
+        'playerToken': proto.playerToken if proto.playerToken != "" else None
     }
 
 
@@ -186,22 +193,3 @@ def table_settings_dict_to_proto(settings: dict) -> ProtoTableService.TableSetti
 
 def player_token_to_proto_subscription_request(token: str) -> ProtoTableService.SubscriptionRequest:
     return ProtoTableService.SubscriptionRequest(playerToken=token)
-
-
-def action_data_dict_to_proto_action_request(action_data: dict) -> ProtoBetting.BettingActionRequest:
-    request = ProtoBetting.BettingActionRequest(actionToken=action_data['playerToken'])
-    action = action_data['action']
-    action_type = action['actionType']
-
-    if action_type == 'FOLD':
-        request.foldAction.CopyFrom(ProtoBetting.FoldRequest())
-    if action_type == 'CHECK':
-        request.checkAction.CopyFrom(ProtoBetting.CheckRequest())
-    if action_type == 'CALL':
-        request.callAction.CopyFrom(ProtoBetting.CallRequest())
-    if action_type == 'BET':
-        request.betAction.CopyFrom(ProtoBetting.BetRequest(chips=action['chips']))
-    if action_type == 'BET':
-        request.raiseAction.CopyFrom(ProtoBetting.RaiseRequest(chips=action['chips']))
-
-    return request

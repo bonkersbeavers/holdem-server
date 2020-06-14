@@ -4,7 +4,6 @@
 
 type Query {
     echo(message: String!): String!
-    explore()
 }
 
 type Mutation {
@@ -104,7 +103,7 @@ type Player {
     seat: Int!
     stack: Int!
 
-    cards: [Card] # hidden cards??
+    cards: [Card!]
     currentBet: Int
     lastAction: BettingActionType
 }
