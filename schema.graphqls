@@ -1,107 +1,85 @@
+# ==============================================================
 # Server API definition
+# ==============================================================
 
 type Query {
     echo(message: String!): String!
+    explore()
 }
 
 type Mutation {
-    createTable(settings: TableSettings!): RequestStatus!
-    addPlayer(playerData: PlayerRegistrationData!): PlayerRegistrationStatus!
-    removePlayer(playerData: PlayerRemovalData!): RequestStatus!
-    takeAction(actionRequest: ActionRequest!): RequestStatus!
-    startGame: RequestStatus!
-    stopGame: RequestStatus!
+    createTable(settings: TableSettings!): SimpleRequestStatus!
+    addPlayer(request: AddPlayerRequest!): AddPlayerStatus!
+    removePlayer(request: RemovePlayerRequest!): SimpleRequestStatus!
+    takeAction(request: ActionRequest!): SimpleRequestStatus!
+    startGame: SimpleRequestStatus!
+    stopGame: SimpleRequestStatus! # do not care
 }
 
 type Subscription {
-    subscribe(subscriberData: SubscriberData!): TableUpdate!
+    subscribe(request: SubscriptionRequest!): GameUpdate!
 }
 
-# Helpers
-
-enum StatusCode {
-    OK
-    INVALID_REQUEST
-    SERVER_FAILURE
-    ENGINE_FAILURE
-    UNKNOWN_ERROR
-}
-
-type RequestStatus {
-    code: StatusCode!
-    message: String
-}
-
-enum BettingActionType {
-    POST
-    FOLD
-    CHECK
-    CALL
-    BET
-    RAISE
-}
-
-# Table creation
+# ==============================================================
+# input types
+# ==============================================================
 
 input TableSettings {
     jsonSettings: String!
 }
 
-# Adding player
-
-input PlayerRegistrationData {
+input AddPlayerRequest {
     playerName: String!
     seat: Int!
 }
 
-type PlayerRegistrationStatus {
-    status: RequestStatus!
-    playerToken: String
-}
-
-# Removing player
-
-input PlayerRemovalData {
+input RemovePlayerRequest {
     playerToken: String!
-}
-
-# Betting action
-
-type BettingAction {
-    actionType: BettingActionType!
-
-    # optional, used only with BET and RAISE actions
-    chips: Int
 }
 
 input ActionRequest {
     actionToken: String!
     action: BettingActionType!
-    chips: Int
+
+    chips: Int # used only with BET and RAISE actions
 }
 
-# Updates
+input SubscriptionRequest {
+    playerToken: String!
+}
 
-input SubscriberData {
+# ==============================================================
+# response types
+# ==============================================================
+
+type SimpleRequestStatus {
+    code: StatusCode!
+
+    message: String
+}
+
+type AddPlayerStatus {
+    code: StatusCode!
+
+    message: String
     playerToken: String
-    isAdmin: Boolean
 }
 
-type TableUpdate {
+type GameUpdate {
     table: Table!
-    nextActionData: NextActionData
+
+    actionToken: String
+    possibleActions: [BettingAction!]
 }
 
-type NextActionData {
-    actionToken: String!
-    possibleActions: [BettingAction!]!
-}
+# ==============================================================
+# nested types
+# ==============================================================
 
 type Table {
     players: [Player!]!
     blinds: Blinds!
 
-    # following fields are populated only if the game is running
     activePlayerSeat: Int
     positions: Positions
     communityCards: [Card!]
@@ -111,6 +89,7 @@ type Table {
 type Blinds {
     smallBlind: Int!
     bigBlind: Int!
+
     ante: Int # TODO, currently not used by the engine
 }
 
@@ -125,8 +104,7 @@ type Player {
     seat: Int!
     stack: Int!
 
-    # following fields are populated only for players in game
-    cards: [Card!]
+    cards: [Card] # hidden cards??
     currentBet: Int
     lastAction: BettingActionType
 }
@@ -134,6 +112,34 @@ type Player {
 type Card {
     rank: CardRank
     suit: CardSuit
+    isHidden: Boolean
+}
+
+type BettingAction {
+    actionType: BettingActionType!
+
+    chips: Int
+}
+
+# ==============================================================
+# enums
+# ==============================================================
+
+enum StatusCode {
+    OK
+    INVALID_REQUEST
+    SERVER_FAILURE
+    ENGINE_FAILURE
+    UNKNOWN_ERROR
+}
+
+enum BettingActionType {
+    POST
+    FOLD
+    CHECK
+    CALL
+    BET
+    RAISE
 }
 
 enum CardSuit {
