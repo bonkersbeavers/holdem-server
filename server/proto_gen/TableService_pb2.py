@@ -24,7 +24,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='poker.proto',
   syntax='proto3',
   serialized_options=b'\n\013poker.protoP\001',
-  serialized_pb=b'\n\x12TableService.proto\x12\x0bpoker.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\rPlayers.proto\x1a\rBetting.proto\x1a\x0bTable.proto\"Y\n\x16\x41\x64\x64PlayerRequestStatus\x12*\n\x06status\x18\x01 \x01(\x0b\x32\x1a.poker.proto.RequestStatus\x12\x13\n\x0bplayerToken\x18\x02 \x01(\t\"*\n\x13SubscriptionRequest\x12\x13\n\x0bplayerToken\x18\x01 \x01(\t\"G\n\rRequestStatus\x12%\n\x04\x63ode\x18\x01 \x01(\x0e\x32\x17.poker.proto.StatusCode\x12\x0f\n\x07message\x18\x02 \x01(\t\"`\n\nGameUpdate\x12!\n\x05table\x18\x01 \x01(\x0b\x32\x12.poker.proto.Table\x12/\n\nnextAction\x18\x02 \x01(\x0b\x32\x1b.poker.proto.NextActionData\"%\n\rTableSettings\x12\x14\n\x0cjsonSettings\x18\x01 \x01(\t\"!\n\rSimpleMessage\x12\x10\n\x08\x63ontents\x18\x01 \x01(\t\"~\n\x0eNextActionData\x12)\n\x08noAction\x18\x01 \x01(\x0b\x32\x15.poker.proto.NoActionH\x00\x12\x37\n\x0f\x61vailableAction\x18\x02 \x01(\x0b\x32\x1c.poker.proto.AvailableActionH\x00\x42\x08\n\x06\x61\x63tion\"\n\n\x08NoAction\"_\n\x0f\x41vailableAction\x12\x37\n\ractionOptions\x18\x02 \x03(\x0b\x32 .poker.proto.BettingActionOption\x12\x13\n\x0b\x61\x63tionToken\x18\x03 \x01(\t* \n\nStatusCode\x12\x06\n\x02OK\x10\x00\x12\n\n\x06\x46\x41ILED\x10\x01\x32\x88\x04\n\x14\x43\x61shGameTableService\x12@\n\x06\x63reate\x12\x1a.poker.proto.TableSettings\x1a\x1a.poker.proto.RequestStatus\x12H\n\tsubscribe\x12 .poker.proto.SubscriptionRequest\x1a\x17.poker.proto.GameUpdate0\x01\x12;\n\x05start\x12\x16.google.protobuf.Empty\x1a\x1a.poker.proto.RequestStatus\x12:\n\x04stop\x12\x16.google.protobuf.Empty\x1a\x1a.poker.proto.RequestStatus\x12P\n\taddPlayer\x12\x1e.poker.proto.PlayerJoinRequest\x1a#.poker.proto.AddPlayerRequestStatus\x12L\n\x0cremovePlayer\x12 .poker.proto.PlayerRemoveRequest\x1a\x1a.poker.proto.RequestStatus\x12K\n\ntakeAction\x12!.poker.proto.BettingActionRequest\x1a\x1a.poker.proto.RequestStatusB\x0f\n\x0bpoker.protoP\x01\x62\x06proto3'
+  serialized_pb=b'\n\x12TableService.proto\x12\x0bpoker.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\rPlayers.proto\x1a\rBetting.proto\x1a\x0bTable.proto\"Y\n\x16\x41\x64\x64PlayerRequestStatus\x12*\n\x06status\x18\x01 \x01(\x0b\x32\x1a.poker.proto.RequestStatus\x12\x13\n\x0bplayerToken\x18\x02 \x01(\t\"*\n\x13SubscriptionRequest\x12\x13\n\x0bplayerToken\x18\x01 \x01(\t\"G\n\rRequestStatus\x12%\n\x04\x63ode\x18\x01 \x01(\x0e\x32\x17.poker.proto.StatusCode\x12\x0f\n\x07message\x18\x02 \x01(\t\"`\n\nGameUpdate\x12!\n\x05table\x18\x01 \x01(\x0b\x32\x12.poker.proto.Table\x12/\n\nnextAction\x18\x02 \x01(\x0b\x32\x1b.poker.proto.NextActionData\"%\n\rTableSettings\x12\x14\n\x0cjsonSettings\x18\x01 \x01(\t\"!\n\rSimpleMessage\x12\x10\n\x08\x63ontents\x18\x01 \x01(\t\"~\n\x0eNextActionData\x12)\n\x08noAction\x18\x01 \x01(\x0b\x32\x15.poker.proto.NoActionH\x00\x12\x37\n\x0f\x61vailableAction\x18\x02 \x01(\x0b\x32\x1c.poker.proto.AvailableActionH\x00\x42\x08\n\x06\x61\x63tion\"\n\n\x08NoAction\"_\n\x0f\x41vailableAction\x12\x37\n\ractionOptions\x18\x02 \x03(\x0b\x32 .poker.proto.BettingActionOption\x12\x13\n\x0b\x61\x63tionToken\x18\x03 \x01(\t* \n\nStatusCode\x12\x06\n\x02OK\x10\x00\x12\n\n\x06\x46\x41ILED\x10\x01\x32\xc5\x04\n\x14\x43\x61shGameTableService\x12@\n\x06\x63reate\x12\x1a.poker.proto.TableSettings\x1a\x1a.poker.proto.RequestStatus\x12H\n\tsubscribe\x12 .poker.proto.SubscriptionRequest\x1a\x17.poker.proto.GameUpdate0\x01\x12;\n\x05start\x12\x16.google.protobuf.Empty\x1a\x1a.poker.proto.RequestStatus\x12:\n\x04stop\x12\x16.google.protobuf.Empty\x1a\x1a.poker.proto.RequestStatus\x12P\n\taddPlayer\x12\x1e.poker.proto.PlayerJoinRequest\x1a#.poker.proto.AddPlayerRequestStatus\x12L\n\x0cremovePlayer\x12 .poker.proto.PlayerRemoveRequest\x1a\x1a.poker.proto.RequestStatus\x12K\n\ntakeAction\x12!.poker.proto.BettingActionRequest\x1a\x1a.poker.proto.RequestStatus\x12;\n\x05reset\x12\x16.google.protobuf.Empty\x1a\x1a.poker.proto.RequestStatusB\x0f\n\x0bpoker.protoP\x01\x62\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,Players__pb2.DESCRIPTOR,Betting__pb2.DESCRIPTOR,Table__pb2.DESCRIPTOR,])
 
@@ -463,7 +463,7 @@ _CASHGAMETABLESERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   serialized_start=792,
-  serialized_end=1312,
+  serialized_end=1373,
   methods=[
   _descriptor.MethodDescriptor(
     name='create',
@@ -525,6 +525,15 @@ _CASHGAMETABLESERVICE = _descriptor.ServiceDescriptor(
     index=6,
     containing_service=None,
     input_type=Betting__pb2._BETTINGACTIONREQUEST,
+    output_type=_REQUESTSTATUS,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='reset',
+    full_name='poker.proto.CashGameTableService.reset',
+    index=7,
+    containing_service=None,
+    input_type=google_dot_protobuf_dot_empty__pb2._EMPTY,
     output_type=_REQUESTSTATUS,
     serialized_options=None,
   ),

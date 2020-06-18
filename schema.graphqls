@@ -13,6 +13,7 @@ type Mutation {
     takeAction(request: ActionRequest!): SimpleRequestStatus!
     startGame: SimpleRequestStatus!
     stopGame: SimpleRequestStatus! # do not care
+    reset: SimpleRequestStatus!
 }
 
 type Subscription {

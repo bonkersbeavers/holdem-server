@@ -80,6 +80,13 @@ class GraphqlServer:
 
         return resolver
 
+    def _reset_resolver(self):
+        async def resolver(obj, info):
+            request_status = await self._table.reset()
+            return request_status
+
+        return resolver
+
     def start(self):
         query = QueryType()
         query.set_field('echo', self._echo_resolver())
@@ -90,6 +97,7 @@ class GraphqlServer:
         mutation.set_field('takeAction', self._take_action_resolver())
         mutation.set_field('startGame', self._start_game_resolver())
         mutation.set_field('stopGame', self._stop_game_resolver())
+        mutation.set_field('reset', self._reset_resolver())
 
         subscription = SubscriptionType()
         subscription.set_field('subscribe', self._subscribe_resolver())

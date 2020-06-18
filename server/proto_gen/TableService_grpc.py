@@ -47,6 +47,10 @@ class CashGameTableServiceBase(abc.ABC):
     async def takeAction(self, stream: 'grpclib.server.Stream[Betting_pb2.BettingActionRequest, TableService_pb2.RequestStatus]') -> None:
         pass
 
+    @abc.abstractmethod
+    async def reset(self, stream: 'grpclib.server.Stream[google.protobuf.empty_pb2.Empty, TableService_pb2.RequestStatus]') -> None:
+        pass
+
     def __mapping__(self) -> typing.Dict[str, grpclib.const.Handler]:
         return {
             '/poker.proto.CashGameTableService/create': grpclib.const.Handler(
@@ -89,6 +93,12 @@ class CashGameTableServiceBase(abc.ABC):
                 self.takeAction,
                 grpclib.const.Cardinality.UNARY_UNARY,
                 Betting_pb2.BettingActionRequest,
+                TableService_pb2.RequestStatus,
+            ),
+            '/poker.proto.CashGameTableService/reset': grpclib.const.Handler(
+                self.reset,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                google.protobuf.empty_pb2.Empty,
                 TableService_pb2.RequestStatus,
             ),
         }
@@ -137,5 +147,11 @@ class CashGameTableServiceStub:
             channel,
             '/poker.proto.CashGameTableService/takeAction',
             Betting_pb2.BettingActionRequest,
+            TableService_pb2.RequestStatus,
+        )
+        self.reset = grpclib.client.UnaryUnaryMethod(
+            channel,
+            '/poker.proto.CashGameTableService/reset',
+            google.protobuf.empty_pb2.Empty,
             TableService_pb2.RequestStatus,
         )
