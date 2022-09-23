@@ -10,7 +10,7 @@ hpack==3.0.0
 httptools==0.1.1
 hyperframe==5.2.0
 multidict==4.7.6
-protobuf==3.12.1
+protobuf==3.18.3
 six==1.15.0
 starlette==0.13.4
 typing-extensions==3.7.4.2
